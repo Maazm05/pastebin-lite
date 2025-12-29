@@ -24,3 +24,16 @@ The application exposes REST APIs for creating and retrieving pastes and also pr
 3.Open the application in your browser:
   ```
    http://localhost:3000
+```
+
+### Persistence Layer
+
+- The application uses Vercel KV as its persistence layer.
+
+- Vercel KV is a serverless, Redis-compatible key-value store.
+
+- Each paste is stored as a single key-value entry using a unique paste ID.
+
+- Time-based expiration and view-count limits are enforced at read time.
+
+- This approach avoids background jobs and works well in a stateless, serverless environment.
