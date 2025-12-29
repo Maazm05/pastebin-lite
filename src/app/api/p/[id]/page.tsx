@@ -6,7 +6,7 @@ type PageProps = {
 };
 
 export default async function PastePage({ params }: PageProps) {
-  const paste = await kv.get<any>(`paste:${params.id}`);
+  const paste = await kv.get(`paste:${params.id}`);
 
   // Not found / expired / exceeded → 404
   if (!paste) {
