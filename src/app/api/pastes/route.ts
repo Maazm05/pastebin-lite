@@ -1,18 +1,18 @@
 import { kv } from "@/lib/kv";
 import { nanoid } from "nanoid";
 import { validatePasteInput } from "@/lib/validation";
+import { NextRequest } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const body = await req.json();
-  const error = validatePasteInput(body);
 
+  const error = validatePasteInput(body);
   if (error) {
     return Response.json({ error }, { status: 400 });
   }
 
   const id = nanoid(10);
   const now = Date.now();
-
   const expiresAt = body.ttl_seconds ? now + body.ttl_seconds * 1000 : null;
 
   const paste = {
@@ -28,6 +28,6 @@ export async function POST(req: Request) {
 
   return Response.json({
     id,
-    url: `${process.env.NEXT_PUBLIC_BASE_URL}/p/${id}`,
+    url: `${req.nextUrl.origin}/p/${id}`,
   });
 }
