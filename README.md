@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pastebin Lite
 
-## Getting Started
+Pastebin Lite is a minimal Pastebin-style web application that allows users to create text pastes and share them via a unique URL.  
+Each paste can optionally expire after a given time (TTL) or after a specified number of views.
 
-First, run the development server:
+The application exposes REST APIs for creating and retrieving pastes and also provides an HTML page to view a paste in the browser.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## Running the Project Locally
+
+### Prerequisites
+- Node.js (v18 or later)
+- npm
+
+### Steps
+
+1. Install dependencies:
+   ```bash
+   npm install
+2. Start the development server:
+   ```
+   npm run dev
+3.Open the application in your browser:
+  ```
+   http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Persistence Layer
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- The application uses Vercel KV as its persistence layer.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Vercel KV is a serverless, Redis-compatible key-value store.
 
-## Learn More
+- Each paste is stored as a single key-value entry using a unique paste ID.
 
-To learn more about Next.js, take a look at the following resources:
+- Time-based expiration and view-count limits are enforced at read time.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- This approach avoids background jobs and works well in a stateless, serverless environment.
